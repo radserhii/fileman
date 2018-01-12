@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Storage;
 
 class UploadController extends Controller
 {
-    function getForm()
+    function getFiles()
     {
-        return view('upload-form');
+        $f = Storage::disk('files');
+        $files = $f->allFiles();
+        return view('upload-form', ['files' => $files]);
     }
 
-    function upload (Request $request)
+    function uploadFiles(Request $request)
     {
         $messages=[];
         foreach ($request->file() as $file) {
@@ -29,4 +31,5 @@ class UploadController extends Controller
         }
         return view('upload-form', ['msg' => $messages]);
     }
+
 }

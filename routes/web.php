@@ -15,5 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('upload',['as' => 'upload_form', 'uses' => 'UploadController@getForm']);
-Route::post('upload',['as' => 'upload_file','uses' => 'UploadController@upload']);
+Route::get('upload',['as' => 'upload_form', 'uses' => 'UploadController@getFiles']);
+Route::post('upload',['as' => 'upload_file','uses' => 'UploadController@uploadFiles']);
