@@ -17,3 +17,9 @@ Route::get('/', function () {
 
 Route::get('upload',['as' => 'upload_form', 'uses' => 'UploadController@getFiles']);
 Route::post('upload',['as' => 'upload_file','uses' => 'UploadController@uploadFiles']);
+
+Route::get('download/{filename}', function($filename)
+{
+    $file = storage_path('files') . '/' . $filename; // or wherever you have stored your PDF files
+    return response()->download($file);
+});

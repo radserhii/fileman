@@ -16,8 +16,8 @@
     </form>
     <div>
         @if(isset($files))
-            @foreach($files as $file)
-                <ul><li>{{$file}}</li></ul>
+            @foreach($files as $filename)
+                <ul><li><a href="{{asset('download/'.$filename)}}">{{$filename}}</a></li></ul>
             @endforeach
         @endif
     </div>
