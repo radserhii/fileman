@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Storage;
 
 class UploadController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     function getFiles()
     {
         $f = Storage::disk('files');

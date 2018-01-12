@@ -1,4 +1,4 @@
-@extends('layouts.index')
+@extends('layouts.app')
 @section('title', 'Upload files')
 @section('content')
     <form action="{{route('upload_file')}}" method="post" enctype="multipart/form-data">
