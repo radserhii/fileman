@@ -14,12 +14,19 @@ class UploadController extends Controller
 
     function upload (Request $request)
     {
+        $messages=[];
         foreach ($request->file() as $file) {
             foreach ($file as $f) {
-                $filename = date('Y-m-d H:i:s').'_'.$f->getClientOriginalName();
+                $originFilename = $f->getClientOriginalName();
+                $filename = date('Y-m-d_H-i-s').'_'.$originFilename;
                 $f->move(storage_path('files'), $filename);
+                if(file_exists(storage_path('files/').$filename)) {
+                    $messages[] = "Файл ".$originFilename. " завантажено";
+                } else {
+                    $messages[] = "Увага! Файл ".$originFilename. " НЕ завантажено!";
+                }
             }
         }
-//        $msg"Файл завантажено";
+        return view('upload-form', ['msg' => $messages]);
     }
 }

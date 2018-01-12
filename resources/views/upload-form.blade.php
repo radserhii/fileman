@@ -6,7 +6,11 @@
             <label for="exampleInputFile">Завантажити файл:</label>
             <input name="_token" type="hidden" value="{{ csrf_token() }}">
             <input type="file" id="exampleInputFile"  multiple name="file[]">
-            <p class="help-block">{{$mes or null}}</p>
+            @if(isset($msg))
+                @foreach($msg as $message)
+            <p class="help-block">{{$message}}</p>
+                @endforeach
+            @endif
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
