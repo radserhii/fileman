@@ -23,3 +23,6 @@ Route::get('download/{filename}', function($filename)
     $file = storage_path('files') . '/' . $filename; // or wherever you have stored your PDF files
     return response()->download($file);
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
