@@ -1,24 +1,21 @@
 @extends('layouts.app')
 @section('title', 'Upload files')
 @section('content')
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="{{route('upload_form')}}">Завантаження</a></li>
+        <li role="presentation"><a href="{{route('show_file')}}">Файли</a></li>
+    </ul>
+    <br><br>
     <form action="{{route('upload_file')}}" method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="exampleInputFile">Завантажити файл:</label>
             <input name="_token" type="hidden" value="{{ csrf_token() }}">
-            <input type="file" id="exampleInputFile"  multiple name="file[]">
+            <input type="file"  multiple name="file[]">
             @if(isset($msg))
                 @foreach($msg as $message)
             <p class="help-block">{{$message}}</p>
                 @endforeach
             @endif
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-success">Завантажити</button>
     </form>
-    <div>
-        @if(isset($files))
-            @foreach($files as $filename)
-                <ul><li><a href="{{asset('download/'.$filename)}}">{{$filename}}</a></li></ul>
-            @endforeach
-        @endif
-    </div>
 @endsection

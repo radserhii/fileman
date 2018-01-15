@@ -13,15 +13,29 @@ class UploadController extends Controller
         $this->middleware('auth');
     }
 
+    function getForm()
+    {
+        return view('upload-form');
+    }
+
     function getFiles()
     {
-        $f = Storage::disk('files');
-        $files = $f->allFiles();
-        return view('upload-form', ['files' => $files]);
+        $disk = Storage::disk('files');
+        $files = $disk->allFiles();
+        $files_info = [];
+        foreach ($files as $file) {
+            $temp = [];
+            $temp[] = $file;
+            $temp[] = date('Y-m-d:H-i-s', $disk->lastModified($file));
+            $temp[] = formatSizeUnits($disk->size($file));
+            $files_info[] = $temp;
+        }
+        return view('file-list', ['files' => $files_info]);
     }
 
     function uploadFiles(Request $request)
     {
+
         $messages=[];
         foreach ($request->file() as $file) {
             foreach ($file as $f) {
@@ -38,5 +52,10 @@ class UploadController extends Controller
         return view('upload-form', ['msg' => $messages]);
     }
 
-
+    function removeFile ($filename)
+    {
+        $disk = Storage::disk('files');
+        $disk->delete($filename);
+        return redirect()->route('show_file');
+    }
 }
