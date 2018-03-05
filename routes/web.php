@@ -15,18 +15,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('upload',['as' => 'upload_form', 'uses' => 'UploadController@getForm']);
-Route::post('upload',['as' => 'upload_file','uses' => 'UploadController@uploadFiles']);
-Route::get('show', ['as' => 'show_file', 'uses' => 'UploadController@getFiles']);
-
-Route::get('download/{filename}', function($filename)
-{
-    $file = storage_path('files') . '/' . $filename; // or wherever you have stored your PDF files
-    return response()->download($file);
+Route::middleware('auth')->group(function (){
+    Route::get('upload',['as' => 'upload_form', 'uses' => 'UploadController@getForm']);
+    Route::post('upload',['as' => 'upload_file','uses' => 'UploadController@uploadFiles']);
+    Route::get('show', ['as' => 'show_file', 'uses' => 'UploadController@getFiles']);
+    Route::get('download/{filename}', ['as' => 'download_file', 'uses' => 'UploadController@downloadFile']);
+    Route::get('remove/{filename}', ['uses' => 'UploadController@removeFile']);
 });
 
-Route::get('remove/{filename}', ['uses' => 'UploadController@removeFile']);
+Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>['auth', 'admin']], function () {
+    Route::get('dashboard', 'DashboardController@dashboard')->name('dashboard');
+    Route::get('dashboard_users', 'DashboardController@dashboardUsers')->name('dashboard_users');
+    Route::post('manual_reg', 'DashboardController@manualRegistration')->name('manual_reg');
+    Route::get('delete_user/{user}', 'DashboardController@deleteUser')->name('delete_user');
+});
 
 Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');
+//!!! Routes install_admin, Install\InstallController and auth/install.blade will be remove after setup Administrator
+Route::get('install_admin', 'Install\InstallController@showInstallForm')->name('install_admin');
+Route::post('install_admin', 'Install\InstallController@register')->name('install_admin');
+//!!!

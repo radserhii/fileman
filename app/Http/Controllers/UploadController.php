@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Storage;
 class UploadController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//    }
 
     function getForm()
     {
@@ -39,6 +39,7 @@ class UploadController extends Controller
         $messages=[];
         foreach ($request->file() as $file) {
             foreach ($file as $f) {
+                ini_set('upload_max_filesize','256M');
                 $originFilename = $f->getClientOriginalName();
                 $filename = date('Y-m-d_H-i-s').'_'.$originFilename;
                 $f->move(storage_path('files'), $filename);
@@ -50,6 +51,12 @@ class UploadController extends Controller
             }
         }
         return view('upload-form', ['msg' => $messages]);
+    }
+
+    function downloadFile($filename)
+    {
+        $file = storage_path('files') . '/' . $filename; // or wherever you have stored your PDF files
+        return response()->download($file);
     }
 
     function removeFile ($filename)
