@@ -27,6 +27,7 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=>['auth', 'a
     Route::get('dashboard', 'DashboardController@dashboard')->name('dashboard');
     Route::get('dashboard_users', 'DashboardController@dashboardUsers')->name('dashboard_users');
     Route::post('manual_reg', 'DashboardController@manualRegistration')->name('manual_reg');
+    Route::get('confirm_delete/{user}', 'DashboardController@confirmDeleteUser')->name('confirmDeleteUser');
     Route::get('delete_user/{user}', 'DashboardController@deleteUser')->name('delete_user');
 });
 

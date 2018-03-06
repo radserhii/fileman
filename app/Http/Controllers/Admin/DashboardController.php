@@ -20,6 +20,11 @@ class DashboardController extends Controller
         return view('admin.dashboard_users', ['users' => $users]);
     }
 
+    public function confirmDeleteUser($user)
+    {
+        return view('admin.confirm_delete', ['user' => $user]);
+    }
+
     public function deleteUser($user)
     {
         User::destroy($user);

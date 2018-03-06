@@ -26,7 +26,7 @@
                         {{$user->created_at}}
                     </td>
                     <td>
-                        <a href="{{route('delete_user',['user' => $user])}}" class="btn btn-danger">Видалити Користувача</a>
+                        <a href="{{route('confirmDeleteUser',['user' => $user])}}" class="btn btn-danger">Видалити Користувача</a>
                     </td>
                 </tr>
             @endforeach
